@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    </head>
+    <body>
+        <div>Username: <input rv-value="form.username"></div>
+        <div>Nr of Players: <input rv-value="form.nrOfPlayers"></div>
+        <button rv-on-click="fetchGames">Search</button>
+
+        <ul rv-each-game="games">
+            <li>
+                <strong>{game | gameTitle}</strong> {game.minplayers.0.$.value} - {game.maxplayers.0.$.value} <i class="fa fa-users" aria-hidden="true"></i>
+                <a href="#" rv-on-click="goToGame">&gt;&gt;&gt;</a>
+            </li>
+        </ul>
+
+        <script src="js/bundle.js"></script>
+        <script src="js/app.js"></script>
+    </body>
+</html>
