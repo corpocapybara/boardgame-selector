@@ -5,7 +5,7 @@
   "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify src/app.js > dist/bundle.js"
+    "build": "browserify -r jquery -r rivets -r ./src/list-boardgames.js:list-boardgames > dist/chrome_ext/js/bundle.js"
   },
   "keywords": [
     "boardgame",
@@ -14,9 +14,11 @@
   "author": "KKO",
   "license": "ISC",
   "dependencies": {
+    "jquery": "3.2.1",
     "promise": "7.1.1",
     "request": "2.81.0",
     "request-promise": "4.2.1",
+    "rivets": "^0.9.6",
     "xml2js": "0.4.17"
   }
 }

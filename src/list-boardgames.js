@@ -77,16 +77,11 @@ function filterByNrOfPlayers(nrOfPlayers) {
         (game.expansions && game.expansions.filter(filterExpansions).length > 0 && (game.requiresExp = true));
 }
 
-function getRequiredExpansionsText(game) {
-    return game.requiresExp ? `+ ${game.expansions.filter(exp=>exp.required).map(exp => exp.name)}` : '';
-}
-
 function getGamesInCollection(username, nrOfPlayers, time) {
-    fetchCollection(username)
+    return fetchCollection(username)
         .then(fetchCollectionGameDetails)
         .then(linkExpansions)
         .then((games) => games.filter(filterByNrOfPlayers(nrOfPlayers)))
-        .then((games) => games.forEach(game => console.log(`${game.name}${getRequiredExpansionsText(game)}`)))
         .catch(console.error);
 }
 
