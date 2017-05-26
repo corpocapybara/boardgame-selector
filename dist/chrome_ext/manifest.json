@@ -3,7 +3,7 @@
 
   "name": "Boardgame Selector",
   "description": "Lists boardgames from boardgamesgeek collection for given number of players",
-  "version": "1.0",
+  "version": "0.1",
   "homepage_url": "https://github.com/corpocapybara/boardgame-selector/",
 
   "browser_action": {
