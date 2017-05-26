@@ -7,10 +7,9 @@ const thingsResource = 'thing';
 const expansionType = 'boardgameexpansion';
 
 function checkResponse(username, resolve, reject) {
-    return response => {
-        if (response.statusCode === 202) { return fetchCollection(username, resolve, reject); }
-        else if (response.statusCode === 200) { return response.body; }
-    }
+    return response => 
+        (response.statusCode === 202 && fetchCollection(username, resolve, reject)) ||
+        (response.statusCode === 200 && response.body);
 }
 
 function mapResponseError(response, username) {
@@ -35,7 +34,7 @@ function fetchGameDetails(games) {
         .get(`${apiHost}${thingsResource}?id=${Object.keys(games).join(',')}`)
         .then(parseXml)
         .then(result => result.items.item)
-        .then(result => { result.forEach(game => game.name = games[game.$.id]); return result });
+        .then(result => result.forEach(game => game.name = games[game.$.id]) || result);
 }
 
 function fetchCollectionGameDetails(collection) {
@@ -70,8 +69,8 @@ function linkExpansions(items) {
 }
 
 function filterByNrOfPlayers(nrOfPlayers) {
-    let checkGame = game => game.minplayers.some((entry) => entry.$.value <= nrOfPlayers) 
-            && game.maxplayers.some((entry) => entry.$.value >= nrOfPlayers);
+    let checkGame = game => game.minplayers.some(entry => entry.$.value <= nrOfPlayers) 
+            && game.maxplayers.some(entry => entry.$.value >= nrOfPlayers);
     let filterExpansions = exp => checkGame(exp) && (exp.required = true)
 
     return (game) => checkGame(game) ||
@@ -79,7 +78,7 @@ function filterByNrOfPlayers(nrOfPlayers) {
 }
 
 function getRequiredExpansionsText(game) {
-    return game.requiresExp ? ' + ' + game.expansions.filter(exp=>exp.required).map(exp => exp.name) : '';
+    return game.requiresExp ? `+ ${game.expansions.filter(exp=>exp.required).map(exp => exp.name)}` : '';
 }
 
 function getGamesInCollection(username, nrOfPlayers, time) {
